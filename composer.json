@@ -1,0 +1,19 @@
+{
+    "name":"thoom/generator",
+    "description":"PHP 5.3 classes used to generate strings such as UUID and alphanumeric",
+    "type":"library",
+    "keywords":["uuid", "generator"],
+    "homepage":"https://github.com/thoom/generator",
+    "license":"MIT",
+    "autoload":{
+        "psr-0":{
+            "Thoom":"lib/"
+        }
+    },
+    "authors":[
+        {
+            "name":"Z.d. Peacock",
+            "email":"zdp@thoomtech.com"
+        }
+    ]
+}
