@@ -26,17 +26,41 @@ class Uuid
     public static $pattern = '^\{?[0-9a-f]{8}\-?[0-9a-f]{4}\-?[0-9a-f]{4}\-?[0-9a-f]{4}\-?[0-9a-f]{12}\}?$';
 
     /**
+     * Creates a BINARY(16) version of the UUID for efficient storage
+     *
+     * @param string $uuid
+     * @return string
+     */
+    public static function pack($uuid)
+    {
+        return pack("h*", str_replace('-', '', $uuid));
+    }
+
+    /**
+     * Creates a UUID from a BINARY(16)
+     *
+     * @param string $binary
+     * @return string
+     */
+
+    public static function unpack($binary)
+    {
+        $arr = unpack("h*", $binary);
+        return preg_replace("/([0-9a-f]{8})([0-9a-f]{4})([0-9a-f]{4})([0-9a-f]{4})([0-9a-f]{12})/", "$1-$2-$3-$4-$5", $arr[1]);
+    }
+    
+    /**
      * Generate v3 UUID
      *
      * Version 3 UUIDs are named based. They require a namespace (another
      * valid UUID) and a value (the name). Given the same namespace and
      * name, the output is always the same.
      *
-     * @param    uuid    $namespace
+     * @param    string    $namespace
      * @param    string    $name
      * @return bool|string
      */
-    public static function v3($namespace, $name)
+    public static function v3($namespace, $name, $binary = false)
     {
         if (!self::validate($namespace)) {
             return false;
@@ -56,7 +80,7 @@ class Uuid
         // Calculate hash value
         $hash = md5($nstr . $name);
 
-        return sprintf(
+        $uuid = sprintf(
             '%08s-%04s-%04x-%04x-%12s',
             // 32 bits for "time_low"
             substr($hash, 0, 8),
@@ -72,6 +96,8 @@ class Uuid
             // 48 bits for "node"
             substr($hash, 20, 12)
         );
+        
+        return $binary ? self::pack($uuid) : $uuid;
     }
 
     /**
@@ -80,9 +106,9 @@ class Uuid
      *
      * Version 4 UUIDs are pseudo-random.
      */
-    public static function v4()
+    public static function v4($binary = false)
     {
-        return sprintf(
+        $uuid = sprintf(
             '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
             // 32 bits for "time_low"
             mt_rand(0, 0xffff),
@@ -101,6 +127,8 @@ class Uuid
             mt_rand(0, 0xffff),
             mt_rand(0, 0xffff)
         );
+        
+        return $binary ? self::pack($uuid) : $uuid; 
     }
 
     /**
@@ -110,11 +138,11 @@ class Uuid
      * valid UUID) and a value (the name). Given the same namespace and
      * name, the output is always the same.
      *
-     * @param    uuid    $namespace
+     * @param    string    $namespace
      * @param    string    $name
      * @return bool|string
      */
-    public static function v5($namespace, $name)
+    public static function v5($namespace, $name, $binary = false)
     {
         if (!self::validate($namespace)) {
             return false;
@@ -134,7 +162,7 @@ class Uuid
         // Calculate hash value
         $hash = sha1($nstr . $name);
 
-        return sprintf(
+        $uuid = sprintf(
             '%08s-%04s-%04x-%04x-%12s',
             // 32 bits for "time_low"
             substr($hash, 0, 8),
@@ -150,6 +178,8 @@ class Uuid
             // 48 bits for "node"
             substr($hash, 20, 12)
         );
+        
+        return $binary ? self::pack($uuid) : $uuid;
     }
 
     public static function validate($uuid)
