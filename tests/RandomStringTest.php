@@ -16,7 +16,7 @@ class RandomStringTest extends \PHPUnit_Framework_TestCase
             $alnum = RandomString::alnum($this->len, RandomString::ALPHANUM_LOWER);
             
             $this->assertEquals($this->len, strlen($alnum));
-            $this->assertEquals(1, preg_match("/^[a-z0-9].*$/", $alnum));
+            $this->assertEquals(1, preg_match("/^[a-z0-9]+$/", $alnum));
         }
         
         //ALPHANUM_UPPER
@@ -24,7 +24,7 @@ class RandomStringTest extends \PHPUnit_Framework_TestCase
             $alnum = RandomString::alnum($this->len, RandomString::ALPHANUM_UPPER);
             
             $this->assertEquals($this->len, strlen($alnum));
-            $this->assertEquals(1, preg_match("/^[A-Z0-9].*$/", $alnum));
+            $this->assertEquals(1, preg_match("/^[A-Z0-9]+$/", $alnum));
         }
         
         //ALPHANUM_MIXED
@@ -32,7 +32,7 @@ class RandomStringTest extends \PHPUnit_Framework_TestCase
             $alnum = RandomString::alnum($this->len, RandomString::ALPHANUM_MIXED);
             
             $this->assertEquals($this->len, strlen($alnum));
-            $this->assertEquals(1, preg_match("/^[a-zA-Z0-9].*$/", $alnum));
+            $this->assertEquals(1, preg_match("/^[a-zA-Z0-9]+$/", $alnum));
         }
     }
     
@@ -43,7 +43,7 @@ class RandomStringTest extends \PHPUnit_Framework_TestCase
             $alpha = RandomString::alpha($this->len, RandomString::ALPHA_LOWER);
             
             $this->assertEquals($this->len, strlen($alpha));
-            $this->assertEquals(1, preg_match("/^[a-z].*$/", $alpha));
+            $this->assertEquals(1, preg_match("/^[a-z]+$/", $alpha));
         }
         
         //ALPHA_UPPER
@@ -51,7 +51,7 @@ class RandomStringTest extends \PHPUnit_Framework_TestCase
             $alpha = RandomString::alpha($this->len, RandomString::ALPHA_UPPER);
             
             $this->assertEquals($this->len, strlen($alpha));
-            $this->assertEquals(1, preg_match("/^[A-Z].*$/", $alpha));
+            $this->assertEquals(1, preg_match("/^[A-Z]+$/", $alpha));
         }
         
         //ALPHA_MIXED
@@ -59,7 +59,7 @@ class RandomStringTest extends \PHPUnit_Framework_TestCase
             $alpha = RandomString::alpha($this->len, RandomString::ALPHA_MIXED);
             
             $this->assertEquals($this->len, strlen($alpha));
-            $this->assertEquals(1, preg_match("/^[a-zA-Z].*$/", $alpha));
+            $this->assertEquals(1, preg_match("/^[a-zA-Z]+$/", $alpha));
         }
     }
     
@@ -79,7 +79,7 @@ class RandomStringTest extends \PHPUnit_Framework_TestCase
             $user = RandomString::user($this->len, array('-', '*', 1, 2, 3, 4));
             
             $this->assertEquals($this->len, strlen($user));
-            $this->assertEquals(1, preg_match("/^[\-|\*|1-4].*$/", $user));
+            $this->assertEquals(1, preg_match("/^[\-|\*|1-4]+$/", $user));
         }
     }
 }
